@@ -122,11 +122,11 @@ def training_loop(n_epochs, env, model, buffr):
     for epoch in range(n_epochs):
         loss_array = []
         for i in range(batches_per_epoch):
-            inputs, outputs = buffr.sample_batch(256)
+            inputs, outputs = buffr.sample_batch(256)  # batch size hardcoded here
             batch_loss = model.train_on_batch(inputs, outputs)
             loss_array.append(batch_loss)
         for j in range(exploration_per_epoch):
-            d, h = get_cmd(buffr, 50)
+            d, h = get_cmd(buffr, 50)  # exploration strategy hard coded to sample from 50 highest rewards replays
             _ = model_rollout(model, env, d_reward=d, t_horizon=h, buffr=buffr, silent=True)
 
         d, h = get_cmd(buffr)
@@ -137,13 +137,12 @@ def training_loop(n_epochs, env, model, buffr):
 
 # params
 seed = 42
-n_replay = 600
+n_replay = 600  # length of replay buffer
 n_warmup = 50
 # training params
 n_epochs = 100
 batches_per_epoch = 100 
 exploration_per_epoch = 15
-batch_size = 256
 
 
 # init
