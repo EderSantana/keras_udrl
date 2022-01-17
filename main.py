@@ -31,7 +31,7 @@ def sample_action(probs, greedy=False):
     return action
 
 # EPISODE ROLLOUT / MODEL ACT IN THE ENV
-def model_rollout(model, env, max_steps_per_ep=100, d_reward=100, t_horizon=100, buffr=None, silent=True, greedy=False):
+def model_rollout(model, env, max_steps_per_ep=200, d_reward=200, t_horizon=200, buffr=None, silent=True, greedy=False):
     states = []
     actions = []
     rewards = []
@@ -148,7 +148,6 @@ batch_size = 256
 
 # init
 env = gym.make("CartPole-v0")
-# env = gym.make("LunarLander-v2")
 action_space = env.action_space
 buffr = Buffer(n_replay)
 env.seed(seed)
@@ -170,6 +169,6 @@ except KeyboardInterrupt:
 # evaluate 
 R = []
 for i in range(10):
-    r = model_rollout(model, env, max_steps_per_ep=1000, d_reward=300, t_horizon=300, silent=False, greedy=True)
+    r = model_rollout(model, env, max_steps_per_ep=1000, d_reward=200, t_horizon=200, silent=False, greedy=True)
     R.append(r)
 print(f"Avg Reward: {np.mean(R)}")
